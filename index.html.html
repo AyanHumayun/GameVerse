@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GameVerse • Enter the Universe of Games</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #191c24;
+      color: #fff;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .hero {
+      text-align: center;
+      background: linear-gradient(90deg, #11203b 0%, #191c24 100%);
+      padding: 4rem 2rem 2rem 2rem;
+      border-bottom: 1px solid #23273c;
+      box-shadow: 0 2px 16px #1117;
+    }
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: #79afff;
+      margin: 0;
+      text-shadow: 0 2px 16px #001c;
+    }
+    .hero-tagline {
+      font-size: 1.5rem;
+      margin: 1rem 0 0.5rem 0;
+      color: #dbeafe;
+      font-weight: 500;
+      letter-spacing: 0.7px;
+    }
+    .hero-desc {
+      color: #a3aed6;
+      max-width: 570px;
+      margin: 0.5rem auto 0;
+      font-size: 1.1rem;
+      font-weight: 400;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 3rem 1rem;
+      gap: 2rem;
+      background: #191c24;
+    }
+    .game-card {
+      background: #242837;
+      border-radius: 12px;
+      width: 310px;
+      box-shadow: 0 2px 16px #0008;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s;
+    }
+    .game-card:hover {
+      transform: translateY(-5px) scale(1.025);
+      box-shadow: 0 6px 24px #000a;
+    }
+    .game-img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      background: #111;
+      display: block;
+    }
+    .game-info {
+      padding: 1rem;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .game-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 0.3rem 0;
+      color: #7af;
+      word-break: break-word;
+    }
+    .game-size {
+      font-size: 0.97rem;
+      color: #bde0ff;
+      font-weight: 500;
+      margin-bottom: 1.1rem;
+    }
+    .download-btn {
+      display: block;
+      background: #7af;
+      color: #242837;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      text-align: center;
+      box-shadow: 0 1px 6px #0004;
+      transition: background 0.18s, color 0.18s;
+      margin: 0 auto;
+      width: 90%;
+    }
+    .download-btn:hover, .download-btn:focus {
+      background: #4e8eff;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .gallery {
+        padding: 1.5rem 0.5rem;
+        gap: 1rem;
+      }
+      .game-card {
+        width: 95vw;
+        max-width: 350px;
+      }
+      .hero-title { font-size: 2.1rem;}
+      .hero-tagline { font-size: 1.1rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1 class="hero-title">GameVerse</h1>
+    <div class="hero-tagline">Enter the Universe of Games</div>
+    <div class="hero-desc">
+      Discover, explore, and access the world’s most popular games in one clean, modern hub.<br>
+      Browse titles, check download sizes, and jump straight into the action — all in one click.
+    </div>
+  </div>
+  <div class="gallery" id="gallery"></div>
+  <script>
+    // The games data (paste your array here)
+    const games = [
+      {
+        "id": 1,
+        "name": "Grand Theft Auto V",
+        "size": "90 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/"
+      },
+      {
+        "id": 2,
+        "name": "Call of Duty: Warzone",
+        "size": "120 GB",
+        "image": "https://bnetcmsus-a.akamaihd.net/cms/blog_header/2a/2A3Z2C0KYGQJ1608597454505.jpg",
+        "video": "",
+        "downloadUrl": "https://www.callofduty.com/warzone/download"
+      },
+      {
+        "id": 3,
+        "name": "Fortnite",
+        "size": "40 GB",
+        "image": "https://cdn2.unrealengine.com/Fortnite%2Fbattle-pass%2Fchapter-5-season-3%2Fsocial-share-fortnite-battle-pass-ch5s3-1920x1080-8eaf2c1e4c43.jpg",
+        "video": "",
+        "downloadUrl": "https://www.fortnite.com/download"
+      },
+      {
+        "id": 4,
+        "name": "Minecraft",
+        "size": "1 GB",
+        "image": "https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/minecraft-og.1cbbd665.png",
+        "video": "",
+        "downloadUrl": "https://www.minecraft.net/en-us/download"
+      },
+      {
+        "id": 5,
+        "name": "Cyberpunk 2077",
+        "size": "70 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1091500/Cyberpunk_2077/"
+      },
+      {
+        "id": 6,
+        "name": "The Witcher 3",
+        "size": "50 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/292030/The_Witcher_3_Wild_Hunt/"
+      },
+      {
+        "id": 7,
+        "name": "Counter-Strike: Global Offensive",
+        "size": "30 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/730/CounterStrike_Global_Offensive/"
+      },
+      {
+        "id": 8,
+        "name": "Apex Legends",
+        "size": "80 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/header.jpg",
+        "video": "",
+        "downloadUrl": "https://www.ea.com/games/apex-legends"
+      },
+      {
+        "id": 9,
+        "name": "Valorant",
+        "size": "30 GB",
+        "image": "https://static.wikia.nocookie.net/valorant/images/2/2a/VALORANT_key_art_1.png",
+        "video": "",
+        "downloadUrl": "https://playvalorant.com/en-us/download/"
+      },
+      {
+        "id": 10,
+        "name": "League of Legends",
+        "size": "20 GB",
+        "image": "https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt2de7f2a7f8e3bc98/65e1f1c14e69c7100f2a0b18/New-Player-Guide-Article-Header.jpg",
+        "video": "",
+        "downloadUrl": "https://www.leagueoflegends.com/en-us/"
+      },
+      {
+        "id": 11,
+        "name": "Dota 2",
+        "size": "40 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/570/Dota_2/"
+      },
+      {
+        "id": 12,
+        "name": "Among Us",
+        "size": "150 MB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/945360/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/945360/Among_Us/"
+      },
+      {
+        "id": 13,
+        "name": "PUBG: Battlegrounds",
+        "size": "40 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/578080/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/578080/PUBG_BATTLEGROUNDS/"
+      },
+      {
+        "id": 14,
+        "name": "Red Dead Redemption 2",
+        "size": "120 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1174180/Red_Dead_Redemption_2/"
+      },
+      {
+        "id": 15,
+        "name": "FIFA 23",
+        "size": "50 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1811260/header.jpg",
+        "video": "",
+        "downloadUrl": "https://www.ea.com/games/fifa/fifa-23"
+      },
+      {
+        "id": 16,
+        "name": "God of War (PC)",
+        "size": "45 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1593500/God_of_War/"
+      },
+      {
+        "id": 17,
+        "name": "Elden Ring",
+        "size": "60 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1245620/ELDEN_RING/"
+      },
+      {
+        "id": 18,
+        "name": "Assassin's Creed Valhalla",
+        "size": "90 GB",
+        "image": "https://static.ubisoft.com/ACV/ACV_UbisoftStore_StorePage_960x540.jpg",
+        "video": "",
+        "downloadUrl": "https://www.ubisoft.com/en-us/game/assassins-creed/valhalla"
+      },
+      {
+        "id": 19,
+        "name": "Rocket League",
+        "size": "20 GB",
+        "image": "https://cdn2.unrealengine.com/rl-homepage-meta-1260x633-1260x633-9b5c4ac6c6a2.jpg",
+        "video": "",
+        "downloadUrl": "https://www.rocketleague.com/"
+      },
+      {
+        "id": 20,
+        "name": "Fall Guys",
+        "size": "6 GB",
+        "image": "https://cdn2.unrealengine.com/egs-fallguys-mediatonic-ic1-4000x1800-3a1206c07f3d.jpg",
+        "video": "",
+        "downloadUrl": "https://www.epicgames.com/fallguys/en-US/home"
+      },
+      {
+        "id": 21,
+        "name": "Rainbow Six Siege",
+        "size": "60 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/359550/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/359550/Tom_Clancys_Rainbow_Six_Siege/"
+      },
+      {
+        "id": 22,
+        "name": "Destiny 2",
+        "size": "100 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1085660/Destiny_2/"
+      },
+      {
+        "id": 23,
+        "name": "Genshin Impact",
+        "size": "40 GB",
+        "image": "https://webstatic.hoyoverse.com/upload/op-public/2021/11/06/05eeb6e9394df3bba5b3a2e8e71afd89_1544777289476614786.jpg",
+        "video": "",
+        "downloadUrl": "https://genshin.hoyoverse.com/en/download"
+      },
+      {
+        "id": 24,
+        "name": "Far Cry 6",
+        "size": "80 GB",
+        "image": "https://static.ubisoft.com/fc6/fc6-keyart-ubicom-960x540.jpg",
+        "video": "",
+        "downloadUrl": "https://www.ubisoft.com/en-us/game/far-cry/far-cry-6"
+      },
+      {
+        "id": 25,
+        "name": "Overwatch 2",
+        "size": "50 GB",
+        "image": "https://bnetcmsus-a.akamaihd.net/cms/page_media/9D8T1UY5A31P1602188221069.jpg",
+        "video": "",
+        "downloadUrl": "https://overwatch.blizzard.com/en-us/"
+      },
+      {
+        "id": 26,
+        "name": "Battlefield 2042",
+        "size": "100 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1517290/header.jpg",
+        "video": "",
+        "downloadUrl": "https://www.ea.com/games/battlefield/battlefield-2042"
+      },
+      {
+        "id": 27,
+        "name": "Doom Eternal",
+        "size": "40 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/782330/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/782330/DOOM_Eternal/"
+      },
+      {
+        "id": 28,
+        "name": "Halo Infinite",
+        "size": "50 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1240440/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1240440/Halo_Infinite/"
+      },
+      {
+        "id": 29,
+        "name": "The Sims 4",
+        "size": "20 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222670/header.jpg",
+        "video": "",
+        "downloadUrl": "https://www.ea.com/games/the-sims/the-sims-4"
+      },
+      {
+        "id": 30,
+        "name": "Forza Horizon 5",
+        "size": "100 GB",
+        "image": "https://assets.xboxservices.com/assets/e9/44/e9444a43-5c8e-4c7a-af13-7c8e05e49bb8.jpg?n=Games-2021_Grid-0_960x540_06.jpg",
+        "video": "",
+        "downloadUrl": "https://www.xbox.com/en-US/games/forza-horizon-5"
+      },
+      {
+        "id": 31,
+        "name": "Resident Evil Village",
+        "size": "35 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1196590/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1196590/Resident_Evil_Village/"
+      },
+      {
+        "id": 32,
+        "name": "Metro Exodus",
+        "size": "60 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/412020/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/412020/Metro_Exodus/"
+      },
+      {
+        "id": 33,
+        "name": "Terraria",
+        "size": "200 MB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/105600/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/105600/Terraria/"
+      },
+      {
+        "id": 34,
+        "name": "Hades",
+        "size": "15 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1145360/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1145360/Hades/"
+      },
+      {
+        "id": 35,
+        "name": "Team Fortress 2",
+        "size": "15 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/440/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/440/Team_Fortress_2/"
+      },
+      {
+        "id": 36,
+        "name": "Subnautica",
+        "size": "20 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/264710/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/264710/Subnautica/"
+      },
+      {
+        "id": 37,
+        "name": "Stardew Valley",
+        "size": "500 MB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/413150/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/413150/Stardew_Valley/"
+      },
+      {
+        "id": 38,
+        "name": "Cuphead",
+        "size": "4 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/268910/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/268910/Cuphead/"
+      },
+      {
+        "id": 39,
+        "name": "Hollow Knight",
+        "size": "9 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/367520/Hollow_Knight/"
+      },
+      {
+        "id": 40,
+        "name": "Sekiro: Shadows Die Twice",
+        "size": "25 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/814380/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/814380/Sekiro_Shadows_Die_Twice/"
+      },
+      {
+        "id": 41,
+        "name": "Death Stranding",
+        "size": "80 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1190460/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1190460/DEATH_STRANDING/"
+      },
+      {
+        "id": 42,
+        "name": "Control",
+        "size": "42 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/870780/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/870780/Control_Ultimate_Edition/"
+      },
+      {
+        "id": 43,
+        "name": "Borderlands 3",
+        "size": "75 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/397540/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/397540/Borderlands_3/"
+      },
+      {
+        "id": 44,
+        "name": "Monster Hunter: World",
+        "size": "50 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/582010/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/582010/Monster_Hunter_World/"
+      },
+      {
+        "id": 45,
+        "name": "GTA: San Andreas",
+        "size": "4 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/12120/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/12120/Grand_Theft_Auto_San_Andreas/"
+      },
+      {
+        "id": 46,
+        "name": "Portal 2",
+        "size": "12 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/620/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/620/Portal_2/"
+      },
+      {
+        "id": 47,
+        "name": "Left 4 Dead 2",
+        "size": "13 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/550/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/550/Left_4_Dead_2/"
+      },
+      {
+        "id": 48,
+        "name": "Dark Souls III",
+        "size": "25 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/374320/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/374320/DARK_SOULS_III/"
+      },
+      {
+        "id": 49,
+        "name": "Hitman 3",
+        "size": "60 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1659040/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1659040/HITMAN_3/"
+      },
+      {
+        "id": 50,
+        "name": "NBA 2K24",
+        "size": "110 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/2451590/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/2451590/NBA_2K24/"
+      },
+      {
+        "id": 51,
+        "name": "NBA 2K23",
+        "size": "90 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1919590/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1919590/NBA_2K23/"
+      },
+      {
+        "id": 52,
+        "name": "Need for Speed: Heat",
+        "size": "50 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1222680/header.jpg",
+        "video": "",
+        "downloadUrl": "https://www.ea.com/games/need-for-speed/need-for-speed-heat"
+      },
+      {
+        "id": 53,
+        "name": "Naruto Shippuden: Ultimate Ninja Storm 4",
+        "size": "40 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/349040/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/349040/NARUTO_SHIPPUDEN_Ultimate_Ninja_STORM_4/"
+      },
+      {
+        "id": 54,
+        "name": "Tekken 7",
+        "size": "60 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/389730/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/389730/TEKKEN_7/"
+      },
+      {
+        "id": 55,
+        "name": "Mortal Kombat 11",
+        "size": "80 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/976310/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/976310/Mortal_Kombat11/"
+      },
+      {
+        "id": 56,
+        "name": "The Forest",
+        "size": "5 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/242760/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/242760/The_Forest/"
+      },
+      {
+        "id": 57,
+        "name": "Palworld",
+        "size": "15 GB",
+        "image": "https://cdn.cloudflare.steamstatic.com/steam/apps/1623730/header.jpg",
+        "video": "",
+        "downloadUrl": "https://store.steampowered.com/app/1623730/Palworld/"
+      }
+    ];
+
+    const gallery = document.getElementById('gallery');
+    games.forEach(game => {
+      const card = document.createElement('div');
+      card.className = 'game-card';
+
+      const img = document.createElement('img');
+      img.className = 'game-img';
+      img.src = game.image;
+      img.alt = game.name;
+
+      const info = document.createElement('div');
+      info.className = 'game-info';
+
+      const title = document.createElement('div');
+      title.className = 'game-title';
+      title.textContent = game.name;
+
+      const size = document.createElement('div');
+      size.className = 'game-size';
+      size.textContent = `Size: ${game.size}`;
+
+      const downloadBtn = document.createElement('a');
+      downloadBtn.className = 'download-btn';
+      downloadBtn.href = game.downloadUrl;
+      downloadBtn.target = '_blank';
+      downloadBtn.rel = 'noopener noreferrer';
+      downloadBtn.textContent = 'Download';
+
+      info.appendChild(title);
+      info.appendChild(size);
+      info.appendChild(downloadBtn);
+
+      card.appendChild(img);
+      card.appendChild(info);
+
+      gallery.appendChild(card);
+    });
+  </script>
+</body>
+</html>
